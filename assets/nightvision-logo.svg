@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="122" height="32" viewBox="0 0 122 32">
+  <defs>
+    <clipPath id="clip-iPhone_12_12_Pro_1">
+      <rect width="122" height="32"/>
+    </clipPath>
+  </defs>
+  <g id="iPhone_12_12_Pro_1" data-name="iPhone 12, 12 Pro – 1" clip-path="url(#clip-iPhone_12_12_Pro_1)">
+    <rect width="122" height="32" fill="rgba(0,0,0,0)"/>
+    <text id="Night" transform="translate(6 23)" fill="#ce8f32" font-size="20" font-family="Avenir-Book, Avenir"><tspan x="0" y="0">Night</tspan></text>
+    <text id="Vision" transform="translate(57 23)" fill="#ce8f32" font-size="20" font-family="Avenir-Book, Avenir" opacity="0.753"><tspan x="0" y="0">Vision</tspan></text>
+  </g>
+</svg>

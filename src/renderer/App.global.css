@@ -1,0 +1,53 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+@import '/node_modules/antd/dist/antd.css';
+:root {
+  --brown-1: #1b1614;
+  --brown-2: #171211;
+  --orange-1: #ce8f32;
+  --white: #fff;
+  --black-1: #151110;
+}
+#root,
+section.ant-layout.ant-layout-has-sider,
+.ant-row.main-row {
+  height: 100vh;
+}
+.logo {
+  height: 32px;
+  margin: 16px;
+}
+
+.site-layout-sub-header-background {
+  background: #fff;
+}
+
+.site-layout-background {
+  background: #fff;
+}
+.ant-modal-content,
+.ant-modal-header,
+.ant-modal-footer {
+  background: var(--black-1);
+  border: none;
+  color: var(--white);
+}
+.ant-modal-title,
+.ant-modal-close {
+  color: var(--white);
+}
+.ant-modal-close:hover {
+  color: var(--orange-1);
+}
+.ant-modal-footer button,
+.ant-modal-footer button:hover {
+  border: 1px solid var(--orange-1);
+  background: var(--black-1);
+  color: var(--white);
+}
+.ant-modal-footer button.ant-btn.ant-btn-primary {
+  background: var(--orange-1);
+  border: none;
+}
