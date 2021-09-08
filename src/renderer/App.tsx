@@ -6,6 +6,7 @@ import { Layout} from 'antd';
 import './App.global.css';
 import styled from '@xstyled/styled-components';
 import SideMenu from './components/SideMenu';
+import { DirProvider } from './contexts/DirContext';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -30,10 +31,12 @@ const Hello = () => {
 
 export default function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" component={Hello} />
-      </Switch>
-    </Router>
+    <DirProvider>
+      <Router>
+        <Switch>
+          <Route path="/" component={Hello} />
+        </Switch>
+      </Router>
+    </DirProvider>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useContext, useState } from 'react';
 import {
   Layout,
   Menu,
@@ -7,21 +7,29 @@ import {
   Modal,
   Form,
   Input,
-  Radio,
+  Tree,
   Row,
   Col,
   Select,
   message,
   Upload,
+  Tooltip,
 } from 'antd';
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
   PlusOutlined,
-  InfoCircleOutlined,
+  DownloadOutlined,
+  FolderFilled,
+  FolderOpenFilled,
 } from '@ant-design/icons';
+import { IoLogoJavascript } from '@react-icons/all-files/io/IoLogoJavascript';
+import { ImHtmlFive } from '@react-icons/all-files/im/ImHtmlFive';
+import { MdCreateNewFolder } from '@react-icons/all-files/md/MdCreateNewFolder';
+import { AiFillFileAdd } from '@react-icons/all-files/ai/AiFillFileAdd';
 import styled from '@xstyled/styled-components';
+import { DirContext } from 'renderer/contexts/DirContext';
 import icon from '../../../../assets/nightvision-logo.svg';
 import FirefoxIcon from '../../../../assets/Firefox_Logo_2017.png';
 import ChromeIcon from '../../../../assets/1200px-Google_Chrome_icon.svg.png';
@@ -30,6 +38,24 @@ import SafariIcon from '../../../../assets/safari_icon_large_2x.png';
 
 const { Sider } = Layout;
 const { Option } = Select;
+const { DirectoryTree } = Tree;
+
+function setFilesIcon(fileName: string): ReactNode {
+  const fileExtention = fileName.split('.')[1];
+  let result;
+  switch (fileExtention) {
+    case 'js':
+      result = <IoLogoJavascript />;
+      break;
+    case 'html':
+      result = <ImHtmlFive />;
+      break;
+    default:
+      break;
+  }
+
+  return result;
+}
 
 const Collumn = styled.divBox`
   height: 100%;
@@ -39,6 +65,77 @@ const Collumn = styled.divBox`
   }
   ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark {
     background: var(--brown-1);
+    .aside-explorer {
+      background: var(--dark-brown-2);
+      .header {
+        background: var(--dark-brown-1);
+        color: var(--white);
+        height: 25px;
+        font-size: 0.8rem !important;
+        .explorerControls {
+          display: flex;
+          button {
+            color: var(--white);
+          }
+        }
+      }
+      .ant-list-item {
+        .ant-tree.ant-tree-block-node.ant-tree-directory {
+          background: transparent !important;
+          .ant-tree-treenode {
+            &:hover {
+              background: transparent !important;
+            }
+            color: var(--white-2);
+          }
+          .ant-tree-treenode.ant-tree-treenode-selected {
+            background: var(--dark-brown-3) !important;
+            transition: none;
+            .ant-tree-indent,
+            span.ant-tree-switcher.ant-tree-switcher-noop {
+              background: var(--dark-brown-3) !important;
+              transition: none;
+            }
+            span.ant-tree-switcher,
+            span.ant-tree-node-content-wrapper {
+              background: var(--dark-brown-3) !important;
+              transition: none;
+            }
+          }
+          .ant-tree-treenode-selected {
+            background: transparent !important;
+            transition: none;
+
+            .ant-tree-indent,
+            span.ant-tree-switcher.ant-tree-switcher-noop {
+              background: transparent !important;
+              transition: none;
+            }
+            span.ant-tree-switcher,
+            span.ant-tree-node-content-wrapper {
+              background: transparent !important;
+              transition: none;
+            }
+          }
+          span.anticon.anticon-folder-open,
+          span.anticon.anticon-folder-close {
+            color: var(--orange-2);
+          }
+          .ant-tree-treenode {
+            &:hover {
+              background: var(--dark-brown-3) !important;
+              transition: none;
+              .ant-tree-switcher,
+              .ant-tree-indent,
+              .ant-tree-node-content-wrapper {
+                background: var(--dark-brown-3) !important;
+                transition: none;
+              }
+            }
+          }
+        }
+      }
+    }
     li.ant-list-item {
       padding: 10px;
       &.active-item {
@@ -99,11 +196,31 @@ const ModalStyled = styled(Modal)`
 
 type RequiredMark = boolean | 'optional';
 
+function setFolderIcon(folder: any) {
+  console.log(folder);
+}
+
 export default function SideMenu() {
+  const { folder } = useContext(DirContext);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [treeData, setTreeData] = useState([]);
   const [form] = Form.useForm();
   const [requiredMark, setRequiredMarkType] =
     useState<RequiredMark>('optional');
+
+  useState(() => {
+    window.electron.ipcRenderer.send('list-dir', '');
+    window.electron.ipcRenderer.on('read-directory', (data: any) => {
+      // const folder = data;
+      // test = data;
+      // console.log(folder);
+      // treeData.push(test);
+      setTreeData([data]);
+    });
+  });
+
+
   const onRequiredTypeChange = ({
     requiredMarkValue,
   }: {
@@ -139,6 +256,14 @@ export default function SideMenu() {
     console.log(`selected ${value}`);
   }
 
+  const onSelect = (keys: React.Key[], info: any) => {
+    console.log('Trigger Select', keys, info);
+  };
+
+  const onExpand = () => {
+    console.log('Trigger Expand');
+  };
+
   return (
     <>
       <Collumn>
@@ -155,7 +280,7 @@ export default function SideMenu() {
           <div className="logo">
             <img src={icon} alt="logo" />
           </div>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+          <Menu theme="dark" mode="inline">
             <List>
               <List.Item className="active-item">
                 <span>New Project</span>
@@ -168,18 +293,33 @@ export default function SideMenu() {
                 />
               </List.Item>
             </List>
-            <Menu.Item key="1" icon={<UserOutlined />}>
-              nav 1
-            </Menu.Item>
-            <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-              nav 2
-            </Menu.Item>
-            <Menu.Item key="3" icon={<UploadOutlined />}>
-              nav 3
-            </Menu.Item>
-            <Menu.Item key="4" icon={<UserOutlined />}>
-              nav 4
-            </Menu.Item>
+            <List className="aside-explorer">
+              <List.Item className="header">
+                <span>Explorer</span>
+                <div className="explorerControls">
+                    <Button
+                      type="text"
+                      icon={<FolderOpenFilled />}
+                    size="small"
+                  />
+                  <Button
+                    type="text"
+                    icon={<MdCreateNewFolder />}
+                      size="small"
+                    />
+                  <Button type="text" icon={<AiFillFileAdd />} size="small" />
+                </div>
+              </List.Item>
+              <List.Item>
+                <DirectoryTree
+                  multiple
+                  defaultExpandAll
+                  onSelect={onSelect}
+                  onExpand={onExpand}
+                  treeData={treeData}
+                />
+              </List.Item>
+            </List>
           </Menu>
         </Sider>
       </Collumn>

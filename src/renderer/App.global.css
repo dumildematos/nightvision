@@ -6,12 +6,16 @@
 :root {
   --brown-1: #1b1614;
   --brown-2: #171211;
-  --brown-3: #362D26;
+  --brown-3: #362d26;
+  --dark-brown-1: #222222;
+  --dark-brown-2: #201f1e;
+  --dark-brown-3: #2c2b29;
 
   --orange-1: #ce8f32;
+  --orange-2: #dda662;
 
   --white: #fff;
-  --white-2: #AEACAC;
+  --white-2: #aeacac;
 
   --black-1: #151110;
 }
@@ -20,15 +24,13 @@ section.ant-layout.ant-layout-has-sider,
 .ant-row.main-row {
   height: 100vh;
 }
-.ant-layout{
+.ant-layout {
   background-color: var(--brown-3);
 }
 .logo {
   height: 32px;
   margin: 16px;
 }
-
-
 
 .site-layout-background {
   background-color: var(--brown-3);
