@@ -39,3 +39,9 @@ section.ant-layout.ant-layout-has-sider,
   background: #362D26!important;
 } */
 
+.ant-tabs-top > .ant-tabs-nav, .ant-tabs-bottom > .ant-tabs-nav, .ant-tabs-top > div > .ant-tabs-nav, .ant-tabs-bottom > div > .ant-tabs-nav {
+  margin: 0 0 0 0;
+}
+.ant-tabs-tabpane.ant-tabs-tabpane-active{
+  height: 100vh;
+}

@@ -40,7 +40,7 @@ ipcMain.on('ipc-example', async (event, arg) => {
 ipcMain.on('list-dir', (event, args) => {
   // const fileArray = [];
   const dirPath = os.homedir();
-  console.log('MAINIPC');
+  // console.log('MAINIPC');
   const fileTree = new FileTree('/Users/macbook/Documents/teste');
   // fileTree.build();
   const fileArray = fileTree.buildTree('/Users/macbook/Documents/teste');

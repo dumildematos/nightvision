@@ -200,7 +200,7 @@ function setFolderIcon(folder: any) {
   console.log(folder);
 }
 
-export default function SideMenu() {
+export default function SideMenu( props: any ) {
   const { folder } = useContext(DirContext);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -214,7 +214,7 @@ export default function SideMenu() {
     window.electron.ipcRenderer.on('read-directory', (data: any) => {
       // const folder = data;
       // test = data;
-      // console.log(folder);
+      console.log(data);
       // treeData.push(test);
       setTreeData([data]);
     });
@@ -257,6 +257,16 @@ export default function SideMenu() {
   }
 
   const onSelect = (keys: React.Key[], info: any) => {
+    console.log(props.tab)
+    if (info.node.children.length === 0) {
+      const file: any = info.node.title.split('.').pop();
+      // let tab = props.tab.panes.map(pane => {
+      //   pane.key === `newTab${info.node.pos}` ?  pane : pane;
+      // });
+      props.openFile(info.node.title, info.node.pos);
+      // console.log(tab)
+      // console.log(file);
+    }
     console.log('Trigger Select', keys, info);
   };
 
