@@ -7,6 +7,7 @@ import './App.global.css';
 import styled from '@xstyled/styled-components';
 import SideMenu from './components/SideMenu';
 import { DirProvider } from './contexts/DirContext';
+import FilePreview from './components/FilePreview/FilePreview';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -18,10 +19,10 @@ const Hello = () => {
       <SideMenu />
     <Layout>
       {/* <Header className="site-layout-sub-header-background" style={{ padding: 0 }} /> */}
-      <Content className="main-content" style={{ margin: '24px 16px 0' }}>
-        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-          content
-        </div>
+      <Content className="main-content">
+          <FilePreview />
+        {/* <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+        </div> */}
       </Content>
       {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
     </Layout>
